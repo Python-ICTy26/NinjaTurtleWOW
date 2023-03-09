@@ -50,6 +50,7 @@ def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
         i = j
     return a
 
+
 def get_row(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[str]:
     """Возвращает все значения для номера строки, указанной в pos
 
@@ -164,6 +165,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             if res:
                 return res
             grid[pos[0]][pos[1]] = "."
+
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """Если решение solution верно, то вернуть True, в противном случае False"""
