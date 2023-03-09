@@ -47,6 +47,7 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
+
     def loc_0(e, phi):
         if phi == 0:
             return 1, 0
