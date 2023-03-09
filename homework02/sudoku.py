@@ -172,7 +172,7 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             if (
                 not sorted(get_row(solution, pos)) == all
                 or not sorted(get_col(solution, pos)) == all
-                or not sorted(get_block(solution, pos)) == all:
+                or not sorted(get_block(solution, pos)) == all
             ):
                 return False
     return True
