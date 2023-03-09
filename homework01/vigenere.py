@@ -10,7 +10,15 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for j in range(len(plaintext)):
+        i = plaintext[j]
+        if i.isalpha():
+            if i.isupper():
+                ciphertext += chr((ord(i) + ord(keyword[j % len(keyword)]) - 130) % 26 + 65)
+            else:
+                ciphertext += chr((ord(i) + ord(keyword[j % len(keyword)]) - 194) % 26 + 97)
+        else:
+            ciphertext += i
     return ciphertext
 
 
@@ -26,5 +34,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for j in range(len(ciphertext)):
+        i = ciphertext[j]
+        if i.isalpha():
+            if i.isupper():
+                plaintext += chr((ord(i) - ord(keyword[j % len(keyword)])) % 26 + 65)
+            else:
+                plaintext += chr((ord(i) - ord(keyword[j % len(keyword)])) % 26 + 97)
+        else:
+            plaintext += i
     return plaintext
