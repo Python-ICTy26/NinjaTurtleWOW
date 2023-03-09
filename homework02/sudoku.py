@@ -110,7 +110,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]):
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    x = - 1
+    x = -1
     for i in range(len(grid)):
         x += 1
         y = 0
@@ -159,7 +159,7 @@ def solve(grid: tp.List[tp.List[str]]):
             next = solve(grid)
             if next:
                 return next
-            grid[empty_positions[0]][empty_positions[1]] = '.'
+            grid[empty_positions[0]][empty_positions[1]] = "."
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
@@ -169,7 +169,11 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     for i in range(0, len(solution)):
         for j in range(0, len(solution)):
             pos = i, j
-            if not sorted(get_row(solution, pos)) == all or not sorted(get_col(solution, pos)) == all or not sorted(get_block(solution, pos)) == all:
+            if (
+                not sorted(get_row(solution, pos)) == all
+                or not sorted(get_col(solution, pos)) == all
+                or not sorted(get_block(solution, pos)) == all:
+            ):
                 return False
     return True
 
