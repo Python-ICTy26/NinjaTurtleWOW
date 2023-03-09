@@ -141,7 +141,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     """ Как решать Судоку?
         1. Найти свободную позицию
         2. Найти все возможные значения, которые могут находиться на этой позиции
@@ -166,16 +166,16 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
             grid[pos[0]][pos[1]] = "."
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     # TODO: Add doctests with bad puzzles
     arr = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
     for i in range(0, len(solution)):
         for j in range(0, len(solution)):
             pos = i, j
             if not (
-                    arr == sorted(get_row(solution, pos))
-                    and arr == sorted(get_col(solution, pos))
-                    and arr == sorted(get_block(solution, pos))
+                arr == sorted(get_row(solution, pos))
+                and arr == sorted(get_col(solution, pos))
+                and arr == sorted(get_block(solution, pos))
             ):
                 return False
     return True
@@ -226,4 +226,4 @@ if __name__ == "__main__":
             print("Solution is correct")
         else:
             print("LoL")
-        display(generate_sudoku(1))
+    display(generate_sudoku(1))
