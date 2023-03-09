@@ -10,19 +10,15 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     'LXFOPVEFRNHR'
     """
     ciphertext = ""
-    for i in range(len(plaintext)):
-        symbol = plaintext[i]
-        if symbol.isalpha():
-            if symbol.isupper():
-                shift = ord(keyword[i % len(keyword)]) - ord("A")
-                code_of_symbol = ord(symbol) - ord("A")
-                ciphertext += chr((code_of_symbol + shift) % 26 + ord("A"))
+    for j in range(len(plaintext)):
+        i = plaintext[j]
+        if i.isalpha():
+            if i.isupper():
+                ciphertext += chr((ord(i) + ord(keyword[j % len(keyword)]) - 130) % 26 + 65)
             else:
-                shift = ord(keyword[i % len(keyword)]) - ord("a")
-                code_of_symbol = ord(symbol) - ord("a")
-                ciphertext += chr((code_of_symbol + shift) % 26 + ord("a"))
+                ciphertext += chr((ord(i) + ord(keyword[j % len(keyword)]) - 194) % 26 + 97)
         else:
-            ciphertext += symbol
+            ciphertext += i
     return ciphertext
 
 
@@ -38,17 +34,13 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
     'ATTACKATDAWN'
     """
     plaintext = ""
-    for i in range(len(ciphertext)):
-        symbol = ciphertext[i]
-        if symbol.isalpha():
-            if symbol.isupper():
-                shift = ord(keyword[i % len(keyword)]) - ord("A")
-                code_of_symbol = 25 - ord(symbol) + ord("A")
-                plaintext += chr(25 - (code_of_symbol + shift) % 26 + ord("A"))
+    for j in range(len(ciphertext)):
+        i = ciphertext[j]
+        if i.isalpha():
+            if i.isupper():
+                plaintext += chr((ord(i) - ord(keyword[j % len(keyword)])) % 26 + 65)
             else:
-                shift = ord(keyword[i % len(keyword)]) - ord("a")
-                code_of_symbol = 25 - ord(symbol) + ord("a")
-                plaintext += chr(25 - (code_of_symbol + shift) % 26 + ord("a"))
+                plaintext += chr((ord(i) - ord(keyword[j % len(keyword)])) % 26 + 97)
         else:
-            plaintext += symbol
+            plaintext += i
     return plaintext
