@@ -96,7 +96,7 @@ class GameOfLife:
         for i in range(self.rows):
             for j in range(self.cols):
                 if self.curr_generation[i][j] == 1 and (
-                        sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3
+                    sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3
                 ):
                     next_grid[i][j] = 1
                 elif self.curr_generation[i][j] == 0 and sum(self.get_neighbours((i, j))) == 3:

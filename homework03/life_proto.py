@@ -199,7 +199,7 @@ class GameOfLife:
         for i in range(self.cell_height):
             for j in range(self.cell_width):
                 if self.grid[i][j] == 1 and (
-                        sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3
+                    sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3
                 ):
                     next_grid[i][j] = 1
                 elif self.grid[i][j] == 0 and sum(self.get_neighbours((i, j))) == 3:
