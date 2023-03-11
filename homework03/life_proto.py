@@ -11,7 +11,7 @@ Grid = tp.List[Cells]
 
 class GameOfLife:
     def __init__(
-            self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
+        self, width: int = 640, height: int = 480, cell_size: int = 10, speed: int = 10
     ) -> None:
         self.width = width
         self.height = height
@@ -30,14 +30,14 @@ class GameOfLife:
         self.speed = speed
 
     def draw_lines(self) -> None:
-        """ Отрисовать сетку """
+        """Отрисовать сетку"""
         for x in range(0, self.width, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color("black"), (x, 0), (x, self.height))
         for y in range(0, self.height, self.cell_size):
             pygame.draw.line(self.screen, pygame.Color("black"), (0, y), (self.width, y))
 
     def run(self) -> None:
-        """ Запустить игру """
+        """Запустить игру"""
         pygame.init()
         clock = pygame.time.Clock()
         pygame.display.set_caption("Game of Life")
@@ -79,7 +79,10 @@ class GameOfLife:
             Матрица клеток размером `cell_height` х `cell_width`.
         """
         if randomize:
-            return [[random.randint(0, 1) for i in range(self.cell_width)] for i in range(self.cell_height)]
+            return [
+                [random.randint(0, 1) for i in range(self.cell_width)]
+                for i in range(self.cell_height)
+            ]
         else:
             return [[0 for i in range(self.cell_width)] for i in range(self.cell_height)]
 
@@ -111,6 +114,7 @@ class GameOfLife:
                             self.cell_size - 1,
                         ),
                     )
+
     def get_neighbours(self, cell: Cell) -> Cells:
         """
         Вернуть список соседних клеток для клетки `cell`.
@@ -194,7 +198,9 @@ class GameOfLife:
         next_grid = [[0 for i in range(self.cell_width)] for i in range(self.cell_height)]
         for i in range(self.cell_height):
             for j in range(self.cell_width):
-                if self.grid[i][j] == 1 and (sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3):
+                if self.grid[i][j] == 1 and (
+                        sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3
+                ):
                     next_grid[i][j] = 1
                 elif self.grid[i][j] == 0 and sum(self.get_neighbours((i, j))) == 3:
                     next_grid[i][j] = 1

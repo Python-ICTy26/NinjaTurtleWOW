@@ -12,10 +12,10 @@ Grid = tp.List[Cells]
 
 class GameOfLife:
     def __init__(
-            self,
-            size: tp.Tuple[int, int],
-            randomize: bool = True,
-            max_generations: tp.Optional[float] = float("inf"),
+        self,
+        size: tp.Tuple[int, int],
+        randomize: bool = True,
+        max_generations: tp.Optional[float] = float("inf"),
     ) -> None:
         # Размер клеточного поля
         self.rows, self.cols = size
@@ -95,7 +95,9 @@ class GameOfLife:
         next_grid = [[0 for i in range(self.cols)] for i in range(self.rows)]
         for i in range(self.rows):
             for j in range(self.cols):
-                if self.curr_generation[i][j] == 1 and (sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3):
+                if self.curr_generation[i][j] == 1 and (
+                        sum(self.get_neighbours((i, j))) == 2 or sum(self.get_neighbours((i, j))) == 3
+                ):
                     next_grid[i][j] = 1
                 elif self.curr_generation[i][j] == 0 and sum(self.get_neighbours((i, j))) == 3:
                     next_grid[i][j] = 1
