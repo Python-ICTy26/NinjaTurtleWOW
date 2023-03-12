@@ -1,3 +1,4 @@
+import math
 import textwrap
 import time
 import typing as tp
@@ -5,7 +6,6 @@ from string import Template
 
 import pandas as pd
 from pandas import json_normalize
-
 from vkapi import config, session
 from vkapi.exceptions import APIError
 
@@ -20,7 +20,46 @@ def get_posts_2500(
     extended: int = 0,
     fields: tp.Optional[tp.List[str]] = None,
 ) -> tp.Dict[str, tp.Any]:
-    pass
+    script = f"""
+        var i = 0; 
+        var result = [];
+        while (i < {max_count}){{
+            if ({offset}+i+100 > {count}){{
+                result.push(API.wall.get({{
+                "owner_id": "{owner_id}",
+                "domain": "{domain}",
+                "offset": "{offset} +i",
+                "count": "{count}-(i+{offset})",
+                "filter": "{filter}",
+                "extended": "{extended}",
+                "fields": "{fields}"
+            }}));
+        }} 
+        result.push(API.wall.get({{
+                "owner_id": "{owner_id}",
+                "domain": "{domain}",
+                "offset": "{offset} +i",
+                "count": "{count}",
+                "filter": "{filter}",
+                "extended": "{extended}",
+                "fields": "{fields}"
+            }}));
+            i = i + {max_count};
+        }}
+        return result;
+        """
+
+    params = {
+        "code": script,
+        "access_token": config.VK_CONFIG["access_token"],
+        "v": config.VK_CONFIG["version"],
+    }
+
+    response = session.post("execute", data=params)
+    response_json = response.json()
+    if "error" in response_json or not response.ok:
+        raise APIError(response_json["error"]["error_msg"])
+    return response_json["response"]["items"]
 
 
 def get_wall_execute(
@@ -36,9 +75,7 @@ def get_wall_execute(
 ) -> pd.DataFrame:
     """
     Возвращает список записей со стены пользователя или сообщества.
-
     @see: https://vk.com/dev/wall.get
-
     :param owner_id: Идентификатор пользователя или сообщества, со стены которого необходимо получить записи.
     :param domain: Короткий адрес пользователя или сообщества.
     :param offset: Смещение, необходимое для выборки определенного подмножества записей.
@@ -49,4 +86,26 @@ def get_wall_execute(
     :param fields: Список дополнительных полей для профилей и сообществ, которые необходимо вернуть.
     :param progress: Callback для отображения прогресса.
     """
-    pass
+    if progress is None:
+        progress = lambda x: x
+    response = pd.DataFrame()
+    for _ in progress(range(math.ceil(count / 2500))):
+        response = pd.concat(
+            [
+                response,
+                json_normalize(
+                    get_posts_2500(
+                        owner_id,
+                        domain,
+                        offset,
+                        count,
+                        max_count,
+                        filter,
+                        extended,
+                        fields,
+                    )
+                ),
+            ]
+        )
+        time.sleep(1)
+    return response
